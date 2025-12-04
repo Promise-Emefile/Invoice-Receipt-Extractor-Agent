@@ -1,4 +1,4 @@
-\# Invoice \& Receipt Agent
+# Invoice \& Receipt Agent
 
 
 
@@ -10,23 +10,23 @@ This README explains what the project does, how it works and how to run it on Wi
 
 
 
-\## TL;DR — what this does
+## TL;DR — what this does
 
 Drop a PDF or image into the program and it extracts vendor, line items, amounts and date, saves the original file in `uploads/` and writes structured records to `invoices.db`.
 
 
 
-\## Why this exists
+## Why this exists
 
 Manually processing invoices is slow and error-prone. This project automates that step by combining:
 
-\- fast text extraction for digital PDFs,
+- fast text extraction for digital PDFs,
 
-\- OCR for scanned images,
+- OCR for scanned images,
 
-\- an LLM to interpret messy invoice text into a predictable JSON,
+- an LLM to interpret messy invoice text into a predictable JSON,
 
-\- a small database to keep results and the original file for auditing.
+- a small database to keep results and the original file for auditing.
 
 
 
@@ -34,11 +34,11 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-\## Quick start (Windows)
+## Quick start (Windows)
 
 
 
-1\. Open PowerShell and activate your environment :
+1. Open PowerShell and activate your environment :
 
 &nbsp;  ```powershell
 
@@ -48,7 +48,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-2\. Install Python dependencies if you haven’t:
+2. Install Python dependencies if you haven’t:
 
 &nbsp;  ```powershell
 
@@ -58,7 +58,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-3\. Install system binaries (Poppler + Tesseract) — conda recommended:
+3. Install system binaries (Poppler + Tesseract) — conda recommended:
 
 &nbsp;  ```powershell
 
@@ -68,7 +68,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-4\. Add your OpenAI key to a `.env` file in the project root:
+4. Add your OpenAI key to a `.env` file in the project root:
 
 &nbsp;  ```
 
@@ -84,7 +84,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-5\. Run the program with a file:
+5. Run the program with a file:
 
 &nbsp;  ```powershell
 
@@ -96,7 +96,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-6\. Inspect saved rows:
+6. Inspect saved rows:
 
 &nbsp;  ```powershell
 
@@ -106,25 +106,25 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-\## Project layout
+## Project layout
 
-\- `src/main.py` — orchestrates the pipeline: copy file → extract text → run extractor → save result
+- `src/main.py` — orchestrates the pipeline: copy file → extract text → run extractor → save result
 
-\- `src/utils/helpers.py` — pdfminer + pdf2image/pytesseract helpers for text extraction
+- `src/utils/helpers.py` — pdfminer + pdf2image/pytesseract helpers for text extraction
 
-\- `src/agents/extraction\_agent.py` — chooses invoice vs receipt extractor
+- `src/agents/extraction\_agent.py` — chooses invoice vs receipt extractor
 
-\- `src/extractors/\*.py` — builds prompt, calls LLM (LangChain if available, otherwise OpenAI), returns JSON
+- `src/extractors/\*.py` — builds prompt, calls LLM (LangChain if available, otherwise OpenAI), returns JSON
 
-\- `src/agents/processing\_agent.py` — normalizes data (dates, products), writes to DB
+- `src/agents/processing\_agent.py` — normalizes data (dates, products), writes to DB
 
-\- `src/database/\*.py` — SQLAlchemy models and DB connection
+- `src/database/\*.py` — SQLAlchemy models and DB connection
 
-\- `src/types/schemas.py` — Pydantic shapes for extracted data
+- `src/types/schemas.py` — Pydantic shapes for extracted data
 
-\- `uploads/` — copies of processed files
+- `uploads/` — copies of processed files
 
-\- `invoices.db` — default SQLite database file (created in project root)
+- `invoices.db` — default SQLite database file (created in project root)
 
 
 
@@ -132,17 +132,17 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-\## How it works
+## How it works
 
-1\. main copies the file to `uploads/` (so the original is kept).
+1. main copies the file to `uploads/` (so the original is kept).
 
-2\. helpers extract text:
+2. helpers extract text:
 
 &nbsp;  - try `pdfminer` (fast) for text PDFs
 
 &nbsp;  - if empty or fails, use `pdf2image` → images → `pytesseract` OCR (works for scans)
 
-3\. extraction\_agent calls the document-specific extractor that:
+3. extraction\_agent calls the document-specific extractor that:
 
 &nbsp;  - builds a prompt that requests a strict JSON format
 
@@ -150,11 +150,11 @@ It’s designed to be clear, auditable, and easy to explain.
 
 &nbsp;  - parses JSON into a Pydantic model or a dict
 
-4\. processing\_agent normalizes fields (parse date to datetime, convert product list to JSON string) and inserts a row into `invoices` table
+4. processing\_agent normalizes fields (parse date to datetime, convert product list to JSON string) and inserts a row into `invoices` table
 
 
 
-\## Helpful commands (Windows / PowerShell)
+## Helpful commands (Windows / PowerShell)
 
 
 
@@ -168,7 +168,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-\- Inspect DB:
+- Inspect DB:
 
 &nbsp; ```powershell
 
@@ -178,7 +178,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-\- Recreate DB (dev only):
+- Recreate DB (dev only):
 
 &nbsp; ```powershell
 
@@ -190,7 +190,7 @@ It’s designed to be clear, auditable, and easy to explain.
 
 
 
-\- Install system OCR tools (conda):
+- Install system OCR tools (conda):
 
 &nbsp; ```powershell
 
