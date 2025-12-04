@@ -1,0 +1,10 @@
+langchain
+langchain-openai
+openai
+python-dotenv
+sqlalchemy
+pydantic
+pillow
+pdf2image
+pytesseract
+pandas
